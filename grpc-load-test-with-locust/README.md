@@ -38,8 +38,7 @@ Please install dependencies from requirement.txt before starting the test execut
                         --headless
     
     
-# Run following command from project directory (grpc-load-test-with-locust)
-      grpc_tools.protoc -I=$SRC_DIR --python_out=$DST_DIR --grpc_python_out=$SRC_DIR proto/<app-name>.proto
-      ```
-      python3 -m grpc_tools.protoc -I=server/proto --python_out=server/proto --grpc_python_out=server/proto server/proto/helloworld.proto
-      ```
+# To complie Proto file
+      Run following command from project directory (grpc-load-test-with-locust)
+      command syntax: grpc_tools.protoc -I=$SRC_DIR --python_out=$DST_DIR --grpc_python_out=$SRC_DIR proto/<app-name>.proto
+      `python3 -m grpc_tools.protoc -I=server/proto --python_out=server/proto --grpc_python_out=server/proto server/proto/helloworld.proto`
