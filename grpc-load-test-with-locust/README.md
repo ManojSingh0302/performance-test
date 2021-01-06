@@ -43,3 +43,11 @@ grpc_tools.protoc -I=$SRC_DIR --python_out=$DST_DIR --grpc_python_out=$SRC_DIR p
 python3 -m grpc_tools.protoc -I=server/proto --python_out=server/proto --grpc_python_out=server/proto server/proto/helloworld.proto
 ```
     
+# To complie Proto file
+Run following command from project directory (grpc-load-test-with-locust)
+
+## Command Syntax: 
+      ```grpc_tools.protoc -I=$SRC_DIR --python_out=$DST_DIR --grpc_python_out=$SRC_DIR proto/<app-name>.proto```
+
+## Command:
+      ```python3 -m grpc_tools.protoc -I=server/proto --python_out=server/proto --grpc_python_out=server/proto server/proto/helloworld.proto ```
