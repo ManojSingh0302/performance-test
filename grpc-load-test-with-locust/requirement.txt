@@ -1,3 +1,0 @@
-grpcio==1.31.0
-grpcio-tools==1.31.0
-locust==1.1.1

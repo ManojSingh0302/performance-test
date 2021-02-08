@@ -52,6 +52,7 @@ def stopwatch(func):
 
     return wrapper
 
+
 class GRPCMyLocust(FastHttpUser):
     host = 'http://127.0.0.1:50051'
     wait_time = constant(0)
@@ -75,6 +76,7 @@ class GRPCMyLocust(FastHttpUser):
                 print(response)
         except (KeyboardInterrupt, SystemExit):
             sys.exit(0)
+
 
 # Stopping the locust if a threshold (in this case the fail ratio) is exceeded
 def checker(environment):
