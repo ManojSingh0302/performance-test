@@ -19,9 +19,6 @@ __author__ = "Manoj Singh"
 
 host_name = "localhost"
 port_no = 6379
-bid_price = random.randint(47238, 57238)
-redis_response = {'bids': bid_price}
-
 
 class RedisClient(object):
     def __init__(self, host=host_name, port=port_no):
@@ -45,8 +42,9 @@ class RedisClient(object):
         return result
 
     def set_query_string(self, key, command='SET'):
-        global redis_response
         result = None
+        bid_price = random.randint(47238, 57238)
+        redis_response = {'bids': bid_price}
         start_time = time.time()
         try:
             result = self.rc.set(key, json.dumps(redis_response))
@@ -63,7 +61,6 @@ class RedisClient(object):
         return result
 
     def lpush_in_list(self, key, command='LPUSH'):
-        global redis_response
         result = None
         start_time = time.time()
         try:
@@ -81,7 +78,6 @@ class RedisClient(object):
         return result
 
     def sadd_in_set(self, key, command='SADD'):
-        global redis_response
         result = None
         visitors = {"dan", "jon", "alex"}
         start_time = time.time()
@@ -94,13 +90,12 @@ class RedisClient(object):
             events.request_failure.fire(request_type=command, name=key, response_time=total_time, exception=e)
         else:
             total_time = int((time.time() - start_time) * 1000)
-            length = len(result)
+            length = len(str(result))
             events.request_success.fire(request_type=command, name=key, response_time=total_time,
                                         response_length=length)
         return result
 
     def hset_in_hash(self, key, command='HSET'):
-        global redis_response
         result = None
         start_time = time.time()
         try:
@@ -112,13 +107,12 @@ class RedisClient(object):
             events.request_failure.fire(request_type=command, name=key, response_time=total_time, exception=e)
         else:
             total_time = int((time.time() - start_time) * 1000)
-            length = result.bit_length()
+            length = len(str(result))
             events.request_success.fire(request_type=command, name=key, response_time=total_time,
                                         response_length=length)
         return result
 
     def hget_in_hash(self, key, command='HGET'):
-        global redis_response
         result = None
         start_time = time.time()
         try:
@@ -130,13 +124,12 @@ class RedisClient(object):
             events.request_failure.fire(request_type=command, name=key, response_time=total_time, exception=e)
         else:
             total_time = int((time.time() - start_time) * 1000)
-            length = len(result)
+            length = len(str(result))
             events.request_success.fire(request_type=command, name=key, response_time=total_time,
                                         response_length=length)
         return result
 
     def hdel_in_hash(self, key, command='HDEL'):
-        global redis_response
         result = None
         start_time = time.time()
         try:
@@ -148,13 +141,12 @@ class RedisClient(object):
             events.request_failure.fire(request_type=command, name=key, response_time=total_time, exception=e)
         else:
             total_time = int((time.time() - start_time) * 1000)
-            length = result.bit_length()
+            length = len(str(result))
             events.request_success.fire(request_type=command, name=key, response_time=total_time,
                                         response_length=length)
         return result
 
     def zadd_in_sorted_set(self, key, command='ZADD'):
-        global redis_response
         result = None
         playerName = "Player1"
         score = 56
@@ -174,7 +166,6 @@ class RedisClient(object):
         return result
 
     def zrange_in_sorted_set(self, key, command='ZRANGE'):
-        global redis_response
         result = None
         start_time = time.time()
         try:
@@ -186,7 +177,7 @@ class RedisClient(object):
             events.request_failure.fire(request_type=command, name=key, response_time=total_time, exception=e)
         else:
             total_time = int((time.time() - start_time) * 1000)
-            length = len(result)
+            length = len(str(result))
             events.request_success.fire(request_type=command, name=key, response_time=total_time,
                                         response_length=length)
         return result
@@ -200,32 +191,28 @@ class RedisLocust(User):
     @task
     @tag("string")
     def string_operations(self):
-        self.client.set_query_string("price_data")
-        self.client.get_query_string("price_data")
+        self.client.set_query_string("string_set_operation")
+        self.client.get_query_string("string_get_operation")
 
     @task
     @tag("list")
     def list_operation(self):
-        self.client.lpush_in_list("numbers")
+        self.client.lpush_in_list("list_lpush_operation")
 
     @task
     @tag("set")
     def set_operation(self):
-        today = datetime.date.today()
-        stoday = today.isoformat()
-        self.client.sadd_in_set(stoday)
+        self.client.sadd_in_set("set_sadd_operation")
 
     @task
     @tag("hash")
     def hash_operation(self):
-        hash_key = "NumberVsString"
-        self.client.hset_in_hash(hash_key)
-        self.client.hget_in_hash(hash_key)
-        self.client.hdel_in_hash(hash_key)
+        self.client.hset_in_hash("hash_hset_operation")
+        self.client.hget_in_hash("hash_hget_operation")
+        self.client.hdel_in_hash("hash_hdel_operation")
 
     @task
     @tag("sorted-set")
     def sorted_set_operation(self):
-        sorted_set_keys = "Players"
-        self.client.zadd_in_sorted_set(sorted_set_keys)
-        self.client.zrange_in_sorted_set(sorted_set_keys)
+        self.client.zadd_in_sorted_set("sorted_set_zadd_operation")
+        self.client.zrange_in_sorted_set("sorted_set_zrange_operation")
