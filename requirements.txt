@@ -18,7 +18,7 @@ itsdangerous==1.1.0
 Jinja2==2.11.3
 MarkupSafe==1.1.1
 msgpack==1.0.2
-protobuf==3.14.0
+protobuf==3.18.3
 psutil==5.8.0
 pyzmq==22.0.2
 requests==2.25.1
