@@ -4,7 +4,7 @@ grpcio-tools==1.31.0
 setuptools~=49.6.0
 gevent==20.9.0
 beautifulsoup4==4.9.3
-certifi==2020.12.5
+certifi==2022.12.7
 chardet==4.0.0
 click==7.1.2
 ConfigArgParse==1.2.3
